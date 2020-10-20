@@ -158,6 +158,24 @@ variant.outputs.forEach {
 }
 ```
 
+### 完整代码:
+
+```
+android {
+    def apkFolder = new File(project.rootDir.absolutePath + "/apk")
+    apkFolder.mkdirs()
+
+    applicationVariants.all { variant ->
+        if (variant.buildType.name != "debug") {
+            variant.packageApplicationProvider.get().outputDirectory = apkFolder
+        }
+        variant.outputs.forEach {
+            it.outputFileName = "test.apk"
+        }
+    }
+}
+```
+
 
 # 其他版本
 
