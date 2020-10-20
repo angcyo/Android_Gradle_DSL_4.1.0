@@ -29,7 +29,7 @@ android {
 
 # 环境
 
-## 1: `com.android.tools.build:gradle:4.1.1`
+## 1: `com.android.tools.build:gradle:4.1.0`
 
 ### 所在的本地路径
 
