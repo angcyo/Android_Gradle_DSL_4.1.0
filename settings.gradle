@@ -1,0 +1,3 @@
+apply from: 'https://gitee.com/angcyo/gradle/raw/master/includeAllModule.gradle'
+
+rootProject.name = "Android_Gradle_DSL_4.1.0"

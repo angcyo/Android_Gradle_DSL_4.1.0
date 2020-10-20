@@ -1,0 +1,88 @@
+plugins {
+    id 'com.android.application'
+    id 'kotlin-android'
+}
+
+println(this.class)
+println(this.name)
+println(this.parent)
+println(this.rootProject)
+println(gradle)
+println(gradle.gradleVersion)
+println(gradle.gradleUserHomeDir)
+
+android {
+    compileSdkVersion 30
+    buildToolsVersion "30.0.1"
+
+    defaultConfig {
+        applicationId "com.angcyo.android_gradle_dsl_410"
+        minSdkVersion 21
+        targetSdkVersion 30
+        versionCode 1
+        versionName "1.0"
+
+        testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
+    }
+
+    buildTypes {
+        release {
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+        }
+    }
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_1_8
+        targetCompatibility JavaVersion.VERSION_1_8
+    }
+    kotlinOptions {
+        jvmTarget = '1.8'
+    }
+
+    println(it.class)
+
+    sourceSets {
+        def base = "C:\\Users\\Administrator\\.gradle\\wrapper\\dists\\gradle-6.5-all\\2oz4ud9k3tuxjg84bbf55q0tn\\gradle-6.5\\src"
+        main.java.srcDirs += [
+                "${base}/core",
+                "${base}/core-api",
+                "${base}/base-services",
+                "${base}/base-services-groovy",
+                "${base}/logging",
+                "${base}/plugins",
+                "${base}/diagnostics",
+                "${base}/ide-native",
+        ]
+    }
+
+    def apkFolder = new File(project.rootDir.absolutePath + "/apk")//rootProject.file("/apk")
+    apkFolder.mkdirs()
+    println "\napp.gradle→APK输出目录:${apkFolder.absolutePath}"
+
+    /*Gradle4.1 以上的方法*/
+    applicationVariants.all { variant ->
+        println(variant.class)
+        if (variant.buildType.name != "debug") {
+            variant.packageApplicationProvider.get().outputDirectory = apkFolder
+        }
+        variant.outputs.forEach {
+            it.outputFileName = "test.apk"
+        }
+    }
+}
+
+dependencies {
+    implementation fileTree(dir: "libs", include: ["*.jar"])
+    implementation fileTree(dir: "sources", include: ["*.jar"])
+
+    def dir = "C:\\Users\\Administrator\\.gradle\\caches\\modules-2\\files-2.1\\com.android.tools.build\\gradle\\4.1.0"
+    implementation fileTree(dir: dir, include: ["*.jar", "*\\*.jar"])
+
+    implementation "org.jetbrains.kotlin:kotlin-stdlib:$kotlin_version"
+    implementation 'androidx.core:core-ktx:1.3.2'
+    implementation 'androidx.appcompat:appcompat:1.2.0'
+    implementation 'com.google.android.material:material:1.2.1'
+    testImplementation 'junit:junit:4.+'
+    androidTestImplementation 'androidx.test.ext:junit:1.1.2'
+    androidTestImplementation 'androidx.test.espresso:espresso-core:3.3.0'
+}
